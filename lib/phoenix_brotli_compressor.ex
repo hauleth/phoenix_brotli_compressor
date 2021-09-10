@@ -47,16 +47,21 @@ defmodule PhoenixBrotliCompressor do
 
   defp executable(path, content) do
     dir = Path.join([System.tmp_dir!(), "phoenix_brotli"])
+    hash = Base.url_encode64(:erlang.md5(content), padding: false)
     File.mkdir_p!(dir)
-    file = Path.join(dir, "#{System.unique_integer([:positive])}")
+    file = Path.join(dir, hash)
     File.write!(file, content)
 
-    case System.cmd(path, ["-c", "--", file], env: []) do
-      {output, 0} ->
-        {:ok, output}
+    try do
+      case System.cmd(path, ["-c", "--", file], env: []) do
+        {output, 0} ->
+          {:ok, output}
 
-      _ ->
-        :error
+        _ ->
+          :error
+      end
+    after
+      File.rm(file)
     end
   end
 end

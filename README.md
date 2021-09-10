@@ -1,6 +1,6 @@
 # PhoenixBrotliCompressor
 
-**TODO: Add description**
+Brotli compressor for Phoenix assets.
 
 ## Installation
 
@@ -19,3 +19,19 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/phoenix_brotli_compressor](https://hexdocs.pm/phoenix_brotli_compressor).
 
+In addition to the the above you will need either add:
+
+```elixir
+def deps do
+  [
+    {:brotli, github: "hauleth/erl-brotli"}
+  ]
+end
+```
+
+Or install `brotli` CLI utility. You configure compressor to use fixed path via
+application configuration:
+
+```elixir
+config :phoenix_brotli_compressor, :path, path_to_brotli_cli
+```
